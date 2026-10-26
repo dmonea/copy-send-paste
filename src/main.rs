@@ -1,5 +1,5 @@
 extern crate copypasta;
-use clap::Parser;
+use clap::{Arg, ArgAction, Command, Parser};
 use copypasta::{ClipboardContext, ClipboardProvider};
 
 #[derive(Parser, Debug)]
@@ -28,4 +28,31 @@ fn main() {
     //
     //     println!("{}", content);
     //
+    let matches = Command::new("csp")
+        .arg(
+            Arg::new("mode")
+                .short('m')
+                .long("mode")
+                .action(ArgAction::Set)
+                .value_name("MODE")
+                .help("Chooses how the program should work: in receive or send mode."),
+        )
+        .arg(
+            Arg::new("target")
+                .short('t')
+                .long("target")
+                .action(ArgAction::Set)
+                .value_name("TARGET")
+                .help("What 'csp' should be working with: the clipboard or a file."),
+        )
+        .arg(
+            Arg::new("file_path")
+                .short('p')
+                .long("file_path")
+                .action(ArgAction::Set)
+                .value_name("FILE_PATH")
+                .help("The file path where 'csp' will be reading data from or writing data to, depending on where the command is executed."),
+        ).get_matches();
+
+    println!("{:?}", matches);
 }
